@@ -14,6 +14,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
+    <script src='https://meet.jit.si/external_api.js'></script>    
 </head>
 <style type="text/css">
     .main {
@@ -73,7 +74,7 @@
         flex-direction: row;
         padding: 50px;
         padding-top: 10px;
-        justify-content: space-between;
+        justify-content: center;
     }
     .chatbox{
         display: flex;
@@ -89,6 +90,8 @@
     <div class="topbar">
     <h2>Product Gallery</h2>
     <button id="cart_btn" style="margin-left:50px">Room Cart</button>
+    <button id="start" style="margin-left:50px">video call</button>
+    
 
 </div>
     <div class='main'>
@@ -113,6 +116,7 @@
     
   </div>
     <div class="container">
+        <div id="jitsi-container"></div>
         <div class="chatbox" style="width: 100%">
             <div class="col-10">
                 <form>
@@ -204,6 +208,18 @@
          localStorage.setItem('cart', JSON.stringify(cart));
           console.log(cart);
     })
+
+    var container= document.querySelector('#jitsi-container')
+    document.querySelector('#start').onclick = function(e){
+         var domain = "meet.jit.si";
+         var options = {
+        "roomName":roomName,
+        "parentNode": container,
+        "width": 600,
+        "height": 600,
+    };
+    api = new JitsiMeetExternalAPI(domain, options);
+    }
     </script>
 
     <!-- Optional JavaScript -->
