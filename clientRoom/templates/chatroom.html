@@ -1,3 +1,4 @@
+{%load static%}
 <html lang="en">
 
 <head>
@@ -9,27 +10,126 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Welcome to the chat room</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 </head>
+<style type="text/css">
+    .main {
+        display: flex;
+        flex-direction: row;
+    }
+    .product_container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        width:80%;
+        padding-top: 20px;
+        border-right: 5px grey solid
+    }
+    .card{
+        border:0.5px grey solid;
+        border-radius: 10px;
+        width: auto;
+        padding:20px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        margin:40px;
+    }
+    .buttons{
+        display:    flex;   
+        flex-direction:     row;    
+        justify-content:    center; 
+        align-items:    center; 
+        margin-top:20px;
+    }
+    .view{
+        margin-left:    10px;
+    }
+    button{
+        background-color:   #FFB6C1;
+        padding:    10px;
+        border-radius:  20px;
+        outline:    none;   
+        border:none ;
+        cursor:pointer; 
+    }
+    img{
+        width:250px;
 
+    }
+    .container{
+        padding: 0;
+        margin:0;
+        width: 50%;
+    }
+    .topbar{
+        display: flex;
+        flex-direction: row;
+        padding: 50px;
+        padding-top: 10px;
+        justify-content: space-between;
+    }
+    .chatbox{
+        display: flex;
+        justify-content: center;
+    }
+    .messaging{
+        display: flex;
+        flex-direction: row;
+    }
+
+</style>
 <body>
+    <div class="topbar">
+    <h2>Product Gallery</h2>
+    <button id="cart_btn" style="margin-left:50px">Room Cart</button>
 
+</div>
+    <div class='main'>
+    
+  <div class="product_container">
+    
+    {%for i in product%}
+    <div class="card">
+        
+        <img id="picpr{{i.product_id}}"src=  '{{i.image.url}}' alt="dress"/>
+        <h5 id="namepr{{i.product_id}}">{{i.product_name}}</h5>
+        <div class="buttons">   
+        <div id="divpr{{i.id}}" class="divpr">
+            <button id= 'pr{{i.product_id}}' class="cart">Add to Cart</button>
+        </div>
+        <div class="view">
+            <button>View Product</button>
+        </div>
+        </div>
+    </div>
+    {% endfor%}
+    
+  </div>
     <div class="container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-6">
+        <div class="chatbox" style="width: 100%">
+            <div class="col-10">
                 <form>
                     <div class="form-group">
-                        <label for="exampleFormControlTextarea1" class="h4 pt-5">Chatroom</label>
-                        <textarea class="form-control" id="chat-text" rows="10"></textarea><br>
+                        <label for="exampleFormControlTextarea1" class="h4 pt-5">Chatbox</label>
+                        <textarea class="form-control" id="chat-text" rows="20" ></textarea><br>
                     </div>
-                    <div class="form-group">
-                        <input class="form-control" id="input" type="text"></br>
+                    <div class="form-group messaging">
+                        <input class="form-control" id="input" type="text" placeholder="Type your message here"></br>
+                        <input class="btn btn-secondary btn-sm " id="submit" type="button" value="Send">
                     </div>
-                    <input class="btn btn-secondary btn-lg btn-block" id="submit" type="button" value="Send">
+                    
                 </form>
             </div>
         </div>
     </div>
+</div>
 
     {{ room_name|json_script:"room-name" }}
     {{ request.user.username|json_script:"user_username" }}
@@ -61,6 +161,49 @@
             console.log(data)
             document.querySelector('#chat-text').value += (data.username + ': ' + data.message + '\n')
         }
+
+         document.querySelector('#cart_btn ').onclick = function(e) {
+            //const data = JSON.parse(e.data);
+            //var roomName = document.querySelector('#room-name-input').value;
+            window.location.pathname = '/chat/' + roomName + '/checkout';
+        };
+
+        console.log('working')
+        console.log(user_username)
+    
+    if(localStorage.getItem('cart')==null){
+        var cart={};
+    }else{
+        cart=JSON.parse(localStorage.getItem('cart'))
+    }
+     
+    
+      $('.divpr').on('click', 'button.cart', function(){
+    var idstr = this.id.toString();
+    var qty,url,user
+    if (cart[idstr] != undefined) {
+        cart[idstr][0] = cart[idstr][0] + 1;
+        cart[idstr][2]=document.getElementById('pic'+idstr).src;
+        cart[idstr][3]=user_username;
+    } else {
+        qty = 1;
+        name=document.getElementById('name'+idstr).innerHTML
+        url=document.getElementById('pic'+idstr).src;
+        user=user_username
+        cart[idstr]=[qty,name,url,user]
+    }
+    console.log(qty)
+    console.log(url)
+    console.log(cart);
+    localStorage.setItem('cart',JSON.stringify(cart))
+});
+    $('.clear').click(function(){
+         cart = JSON.parse(localStorage.getItem('cart'));
+         localStorage.clear();
+         cart = {};
+         localStorage.setItem('cart', JSON.stringify(cart));
+          console.log(cart);
+    })
     </script>
 
     <!-- Optional JavaScript -->

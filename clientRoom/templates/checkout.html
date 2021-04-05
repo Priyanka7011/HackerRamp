@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>	Checkout Page</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+</head>
+<style type="text/css">
+  .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  li{
+    list-style: none;
+    border:0.5px solid grey;
+    padding: 20px;
+    width:400px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .badge{
+    background-color: #FFB6C1;
+    height:40px;
+    width: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+  
+    button{
+        background-color:   #FFB6C1;
+        padding:    10px;
+        border-radius:  20px;
+        outline:    none;   
+        border:none ;
+        cursor:pointer; 
+    }
+
+    img{
+      width:50px;
+    }
+  
+</style>
+<body>
+   <div class="container">	
+   	 <div id="items">
+
+      <h1>Cart Items</h1>
+       <button class="clear">ClearCart</button> 
+   	   <ul class="list">
+   	     
+   	   </ul>
+      
+   	 </div>
+     
+   </div>
+   
+</body>
+<script type="text/javascript">
+	console.log('working')
+if (localStorage.getItem('cart') == null) {
+    var cart = {};
+} else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+}
+console.log(cart);
+var sum = 0;
+if ($.isEmptyObject(cart)) {
+    // If object is empty
+    mystr = "<p>Your cart is empty, please add some items before checking out ! </p>"
+    $('#items').append(mystr);
+}
+
+for (item in cart) {
+
+    let name = cart[item][1];
+    let qty = cart[item][0];
+    let src= cart[item][2];
+    let user= cart[item][3];
+    sum = sum + qty;
+    /*mystr = `        <li class="list-group-item d-flex justify-content-between align-items-center">
+                   ${name}
+                    <span class="badge badge-primary badge-pill">${qty}</span>
+                </li>`
+    $('#items').append(mystr);*/
+    mystr=`<li class="list-item">${user} added : ${name}
+   	     	<span class="badge">${qty}</span>
+          <img src='${src}'>
+   	     </li>`
+
+   	     $('#items').append(mystr);
+   	     console.log(cart[item])
+
+}
+
+  $('.clear').click(function(){
+         cart = JSON.parse(localStorage.getItem('cart'));
+         localStorage.clear();
+         cart = {};
+         localStorage.setItem('cart', JSON.stringify(cart));
+          console.log(cart);
+    })
+</script>
+</html>

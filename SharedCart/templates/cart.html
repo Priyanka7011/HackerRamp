@@ -2,8 +2,99 @@
 <html>
 <head>
 	<title></title>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 </head>
+<style type="text/css">
+	.procuct_container{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+	}
+	.card{
+		border:2px black solid;
+		border-radius: 10px;
+		width: auto;
+		padding:20px;
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		margin:40px;
+	}
+	.buttons{
+		display: 	flex;	
+		flex-direction: 	row;	
+		justify-content: 	center;	
+		align-items: 	center;	
+		margin-top:20px;
+	}
+	.view{
+		margin-left:	10px;
+	}
+	button{
+		background-color: 	#FFB6C1;
+		padding: 	10px;
+		border-radius: 	20px;
+		outline: 	none;	
+		border:none	;
+		cursor:pointer;	
+	}
+</style>
 <body>
-
+  <h1>	Product Gallery</h1>
+  <div class="procuct_container">
+  	{%for i in product%}
+  	<div class="card">
+  		
+  		<!--<img src= "images/Mens-Standard-Fit-Heathered-Short-Sleeve-V-Neck-T-Shirt01-600x764.jpg" alt="dress"/>-->
+  		<h5 id="namepr{{i.product_id}}">{{i.product_name}}</h5>
+  		<div class="buttons">	
+  		<div id="divpr{{i.id}}" class="divpr">
+  			<button id= 'pr{{i.product_id}}' class="cart">Add to Cart</button>
+  		</div>
+  		<div class="view">
+  			<button>Vew Product</button>
+  		</div>
+  		</div>
+  	</div>
+  	{% endfor%}
+  	<button class="clear">ClearCart</button>
+  </div>
 </body>
+<script type="text/javascript">
+	console.log('working')
+    
+	if(localStorage.getItem('cart')==null){
+		var cart={};
+	}else{
+		cart=JSON.parse(localStorage.getItem('cart'))
+	}
+
+	
+      $('.divpr').on('click', 'button.cart', function(){
+    var idstr = this.id.toString();
+    var qty
+    if (cart[idstr] != undefined) {
+        cart[idstr][0] = cart[idstr][0] + 1;
+    } else {
+        qty = 1;
+        name=document.getElementById('name'+idstr).innerHTML
+        cart[idstr]=[qty,name]
+    }
+    console.log(qty)
+    
+    console.log(cart);
+    localStorage.setItem('cart',JSON.stringify(cart))
+});
+	$('.clear').click(function(){
+		 cart = JSON.parse(localStorage.getItem('cart'));
+		 localStorage.clear();
+         cart = {};
+         localStorage.setItem('cart', JSON.stringify(cart));
+          console.log(cart);
+	})
+</script>
 </html>

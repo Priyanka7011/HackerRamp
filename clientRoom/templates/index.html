@@ -1,1 +1,79 @@
-//index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Rooms</title>
+</head>
+<style type="text/css">
+	.form{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		padding-top :100px;
+
+
+	}
+	.form input{
+		width: 400px;
+		padding: 10px;
+		outline: none;
+	}
+	.form button{
+		width:150px;
+		padding: 10px;
+		outline: none;
+		background-color:#FFB6C1;
+		border:none;
+	}
+
+	#room-name-input{
+		
+		padding: 20px;
+		width:400px;
+		background-color:#FFB6C1;
+		text-align: center;
+	}
+</style>
+<body>
+	<div class="form">
+   <br>
+   <h1>Create Your Chat Room</h1>
+   <h3>Collaborate with your friends and experience shopping like never before</h3>
+    <!--<input id="room-name-input" type="text" size="100" placeholder="Chat Room name"><br>-->
+    <div id="room-name-input"></div>
+    <br>
+    <p id="link"></p>
+    <!--<input id="user-name-input" type="text" size="100" placeholder="Enter the user name"><br>-->
+    <button id="room-name-submit" type="submt">Enter Chat Room</button> 
+   </div>
+
+    <script>
+    	document.getElementById('room-name-input').innerHTML= create_unique_room_name(10);
+    	var unique_chat_name=create_unique_room_name(10);
+    	function create_unique_room_name(string_length){
+    		var random_string='';
+    		var characters = 'ABCDERFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz'
+    		for(var i=0;i<string_length;i++){
+                random_string  += characters.charAt(Math.floor(Math.random() * characters.length));
+    		}
+    		return random_string;
+    	}
+    	
+        document.querySelector('#room-name-input').focus();
+        document.querySelector('#room-name-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#room-name-submit').click();
+            }
+        };
+
+        document.querySelector('#room-name-submit').onclick = function(e) {
+            var roomName = document.querySelector('#room-name-input').value;
+            window.location.pathname = '/chat/' + unique_chat_name + '/';
+        };
+
+        
+
+    </script>
+</body>
+</html>
