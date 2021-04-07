@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'clientRoom',
     'SharedCart',
     'channels',
+    'trialRoom',
+    'homeApp'
 ]
 
 MIDDLEWARE = [

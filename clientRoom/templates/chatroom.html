@@ -1,3 +1,4 @@
+<!-- shop room page -->
 {%load static%}
 <html lang="en">
 
@@ -53,12 +54,13 @@
         margin-left:    10px;
     }
     button{
-        background-color:   #FFB6C1;
-        padding:    10px;
+        background-color:   #EC5578;
+        padding:  10px;
         border-radius:  20px;
-        outline:    none;   
+        outline:  none;   
         border:none ;
         cursor:pointer; 
+        color:white;
     }
     img{
         width:250px;
@@ -89,8 +91,9 @@
 <body>
     <div class="topbar">
     <h2>Product Gallery</h2>
-    <button id="cart_btn" style="margin-left:50px">Room Cart</button>
+    <button id="cart_btn" style="margin-left:50px">Wish List</button>
     <button id="start" style="margin-left:50px">video call</button>
+    <button id="trial" style="margin-left:50px">Trial room</button>
     
 
 </div>
@@ -105,7 +108,7 @@
         <h5 id="namepr{{i.product_id}}">{{i.product_name}}</h5>
         <div class="buttons">   
         <div id="divpr{{i.id}}" class="divpr">
-            <button id= 'pr{{i.product_id}}' class="cart">Add to Cart</button>
+            <button id= 'pr{{i.product_id}}' class="cart">Add to WishList</button>
         </div>
         <div class="view">
             <button>View Product</button>
@@ -138,6 +141,7 @@
     {{ room_name|json_script:"room-name" }}
     {{ request.user.username|json_script:"user_username" }}
     <script>
+        /*chat box */
         const user_username = JSON.parse(document.getElementById('user_username').textContent);
         document.querySelector('#submit').onclick = function (e) {
             const messageInputDom = document.querySelector('#input');
@@ -167,13 +171,18 @@
         }
 
          document.querySelector('#cart_btn ').onclick = function(e) {
-            //const data = JSON.parse(e.data);
-            //var roomName = document.querySelector('#room-name-input').value;
+            
             window.location.pathname = '/chat/' + roomName + '/checkout';
         };
 
-        console.log('working')
-        console.log(user_username)
+         document.querySelector('#trial ').onclick = function(e) {
+           
+            window.location.pathname = '/trial/';
+        };
+
+
+
+     /*common cart/wishlist*/   
     
     if(localStorage.getItem('cart')==null){
         var cart={};
@@ -208,7 +217,8 @@
          localStorage.setItem('cart', JSON.stringify(cart));
           console.log(cart);
     })
-
+    
+    /*Video meeting API and settings*/
     var container= document.querySelector('#jitsi-container')
     document.querySelector('#start').onclick = function(e){
          var domain = "meet.jit.si";

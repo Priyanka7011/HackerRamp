@@ -1,7 +1,8 @@
+<!--WishList page-->
 <!DOCTYPE html>
 <html>
 <head>
-	<title>	Checkout Page</title>
+	<title>	Wish List Page</title>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -32,12 +33,13 @@
   }
   
     button{
-        background-color:   #FFB6C1;
+        background-color:   #EC5578;
         padding:    10px;
         border-radius:  20px;
-        outline:    none;   
+        outline: none;   
         border:none ;
         cursor:pointer; 
+        color:white;
     }
 
     img{
@@ -49,8 +51,8 @@
    <div class="container">	
    	 <div id="items">
 
-      <h1>Cart Items</h1>
-       <button class="clear">ClearCart</button> 
+      <h1>Wish List Items</h1>
+       <button class="clear">Clear List</button> 
    	   <ul class="list">
    	     
    	   </ul>
@@ -71,7 +73,7 @@ console.log(cart);
 var sum = 0;
 if ($.isEmptyObject(cart)) {
     // If object is empty
-    mystr = "<p>Your cart is empty, please add some items before checking out ! </p>"
+    mystr = "<p>Your wish list is empty, please add some items  ! </p>"
     $('#items').append(mystr);
 }
 

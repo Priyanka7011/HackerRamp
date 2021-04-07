@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include("clientRoom.urls")),
     path('cart/', include("SharedCart.urls")),
+    path('trial/', include("trialRoom.urls")),
+    path('',include("homeApp.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
